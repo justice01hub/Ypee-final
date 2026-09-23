@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- Meta Viewport with maximum-scale and user-scalable=no to prevent pinch/focus zoom -->
+  <!-- Meta Viewport with maximum-scale=1.0 and user-scalable=no to prevent iOS/Android pinch and focus zoom -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Virtual Predict - SportyBet Instant Football AI</title>
+  <title>Virtual Predict - SportyBet Instant Football AI Engine</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome Icons -->
+  <!-- FontAwesome Icons CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <script>
@@ -34,7 +34,7 @@
             emeraldWin: '#10b981',
           },
           animation: {
-            'laser-scan': 'laserScan 1.8s ease-in-out infinite alternate',
+            'laser-scan': 'laserScan 1.6s ease-in-out infinite alternate',
             'pulse-glow': 'pulseGlow 2.5s infinite',
             'marquee': 'marquee 22s linear infinite',
           },
@@ -45,7 +45,7 @@
             },
             pulseGlow: {
               '0%, 100%': { opacity: '1', filter: 'drop-shadow(0 0 15px rgba(147, 51, 234, 0.6))' },
-              '50%': { opacity: '0.7', filter: 'drop-shadow(0 0 6px rgba(147, 51, 234, 0.2))' },
+              '50%': { opacity: '0.6', filter: 'drop-shadow(0 0 6px rgba(147, 51, 234, 0.2))' },
             },
             marquee: {
               '0%': { transform: 'translateX(0%)' },
@@ -66,7 +66,7 @@
       user-select: none;
     }
 
-    /* CRITICAL FIX: Ensure inputs are at least 16px to prevent iOS Safari auto-zoom on focus */
+    /* Prevent mobile web auto-zoom on input focus */
     input[type="text"],
     input[type="number"],
     input[type="password"],
@@ -76,7 +76,14 @@
       touch-action: manipulation;
     }
 
-    /* Glassmorphism card effects */
+    /* MASK ALL INPUTS IN VERIFY SECTION: Disallow clear text, strictly render obscure dots/bullets */
+    .masked-verify-input {
+      -webkit-text-security: disk !important;
+      text-security: disk !important;
+      letter-spacing: 0.15em;
+    }
+
+    /* Glassmorphism panel styling */
     .glass-panel {
       background: rgba(20, 12, 36, 0.85);
       backdrop-filter: blur(16px);
@@ -88,17 +95,18 @@
       background: rgba(11, 7, 18, 0.85);
       border: 1px solid rgba(147, 51, 234, 0.35);
     }
+
     .glass-input:focus {
       border-color: #e879f9;
-      box-shadow: 0 0 12px rgba(232, 121, 249, 0.3);
+      box-shadow: 0 0 14px rgba(232, 121, 249, 0.35);
       outline: none;
     }
 
-    /* Ambient glow background effect */
+    /* Ambient glow background light */
     .ambient-light {
       position: absolute;
-      width: 300px;
-      height: 300px;
+      width: 320px;
+      height: 320px;
       background: radial-gradient(circle, rgba(147, 51, 234, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
       top: 0;
       left: 50%;
@@ -110,10 +118,10 @@
 </head>
 <body class="min-h-screen bg-darkBg text-white flex flex-col justify-between relative overflow-x-hidden">
 
-  <!-- Ambient Light Effect -->
+  <!-- Ambient Light Backdrop Effect -->
   <div class="ambient-light"></div>
 
-  <!-- Mobile Container (Max Width 480px centered) -->
+  <!-- Mobile Container (Max Width 480px centered viewport) -->
   <div class="w-full max-w-[480px] mx-auto flex-1 flex flex-col justify-between relative z-10 px-4 pt-4 pb-20">
 
     <!-- Top Navigation Header (Shown on Screens 2 & 3) -->
@@ -130,7 +138,7 @@
         </div>
       </div>
 
-      <!-- Counter / Status Badge -->
+      <!-- Upload Counter Badge -->
       <div id="counterBadge" class="bg-purple-950/80 border border-purple-500/30 px-3 py-1 rounded-full flex items-center space-x-1.5 shadow-inner">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
         <span class="text-xs font-bold text-purple-200" id="counterBadgeText">3/3 UPLOADS</span>
@@ -138,11 +146,11 @@
     </header>
 
     <!-- ================================================================= -->
-    <!-- SCREEN 1: LANDING PAGE -->
+    <!-- SCREEN 1: HERO LANDING PAGE -->
     <!-- ================================================================= -->
     <section id="screen1" class="flex-1 flex flex-col justify-center items-center text-center px-2 py-6 transition-all duration-300">
       
-      <!-- Pulsing Live Indicator Badge -->
+      <!-- Pulsing Live Badge -->
       <div class="inline-flex items-center space-x-2 bg-purple-950/80 border border-purple-500/40 px-4 py-1.5 rounded-full mb-8 shadow-lg backdrop-blur-md">
         <span class="relative flex h-2.5 w-2.5">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-fuchsia-400 opacity-75"></span>
@@ -151,15 +159,15 @@
         <span class="text-xs font-bold tracking-wider uppercase text-purple-200">LIVE AI PREDICTOR v4.2</span>
       </div>
 
-      <!-- Hero Emblem Graphic -->
+      <!-- Hero Icon Emblem -->
       <div class="relative mb-8 group">
         <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-600 rounded-3xl blur-lg opacity-75 group-hover:opacity-100 transition duration-1000 animate-pulse-glow"></div>
         <div class="relative w-28 h-28 bg-cardBg rounded-3xl border border-purple-500/30 flex items-center justify-center shadow-2xl">
-          <i class="fa-solid fa-bolt-lightning text-5xl text-gradient bg-gradient-to-tr from-purple-400 to-fuchsia-400 bg-clip-text text-transparent"></i>
+          <i class="fa-solid fa-bolt-lightning text-5xl bg-gradient-to-tr from-purple-400 to-fuchsia-400 bg-clip-text text-transparent"></i>
         </div>
       </div>
 
-      <!-- Main App Title -->
+      <!-- Title & Subtitle -->
       <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white mb-2 leading-tight">
         VIRTUAL <span class="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">PREDICT</span>
       </h1>
@@ -168,9 +176,8 @@
         Instant Football AI Engine
       </p>
 
-      <!-- Subtitle Description -->
       <p class="text-xs sm:text-sm text-purple-200/70 mb-10 max-w-xs leading-relaxed">
-        Upload SportyBet Instant Football screenshots to crack match odds and extract high-probability 1X2 outcomes powered by neural OCR analysis.
+        Upload SportyBet Instant Football screenshots to analyze match odds and extract high-probability 1X2 outcomes powered by neural OCR algorithms.
       </p>
 
       <!-- Action Button: TAP TO ENTER -> -->
@@ -181,7 +188,7 @@
         <i class="fa-solid fa-arrow-right text-sm"></i>
       </button>
 
-      <!-- Features Summary Grid -->
+      <!-- Features Summary -->
       <div class="grid grid-cols-3 gap-2 w-full mt-12 pt-6 border-t border-purple-900/40 text-center">
         <div class="p-2">
           <p class="text-base font-black text-white">96%+</p>
@@ -204,7 +211,7 @@
     <!-- ================================================================= -->
     <section id="screen2" class="hidden flex-1 flex flex-col justify-start py-2 space-y-4 transition-all duration-300">
       
-      <!-- Info Header Box -->
+      <!-- Info Card -->
       <div class="glass-panel p-4 rounded-2xl">
         <h2 class="text-sm font-bold text-white flex items-center space-x-2">
           <i class="fa-solid fa-shield-halved text-fuchsia-400"></i>
@@ -239,7 +246,7 @@
               <span class="text-yellow-300 font-mono font-bold tracking-wider text-sm">0205444383</span>
               <button 
                 onclick="copyMoMoNumber('0205444383')" 
-                class="bg-purple-900/60 hover:bg-purple-800 text-purple-200 hover:text-white px-2 py-1 rounded-md text-[10px] font-bold border border-purple-500/30 flex items-center space-x-1 transition-all active:scale-95">
+                class="bg-purple-900/60 hover:bg-purple-800 text-purple-200 hover:text-white px-2 py-1 rounded-md text-[10px] font-bold border border-purple-500/30 flex items-center space-x-1 transition-all active:scale-95 cursor-pointer">
                 <i class="fa-regular fa-copy"></i>
                 <span id="copyBtnText">Copy</span>
               </button>
@@ -252,7 +259,7 @@
         </div>
       </div>
 
-      <!-- Step 2: Verification Input Card -->
+      <!-- Step 2: Verification Input Card with Mandatory Input Masking -->
       <div class="glass-panel p-5 rounded-2xl space-y-4 relative overflow-hidden">
         <div class="flex items-center space-x-2">
           <span class="w-6 h-6 rounded-full bg-fuchsia-600 text-white text-xs font-bold flex items-center justify-center shadow-md">2</span>
@@ -261,13 +268,18 @@
 
         <div>
           <label class="block text-xs text-purple-300 mb-1.5 font-medium">Transaction ID / Reference Number</label>
-          <!-- Input explicitly styled to font-size 16px to prevent zoom on focus -->
+          
+          <!-- STRICT REQUIREMENT: Input is masked using type="password" AND CSS -webkit-text-security: disk (NO reveal button) -->
           <input 
-            type="text" 
+            type="password" 
             id="trxInput"
             placeholder="Enter MoMo Transaction ID" 
-            class="w-full px-4 py-3 rounded-xl glass-input text-white placeholder-purple-400/40 text-base font-mono tracking-wide"
+            class="w-full px-4 py-3 rounded-xl glass-input text-white placeholder-purple-400/40 text-base font-mono tracking-wide masked-verify-input"
             style="font-size: 16px !important;"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
           />
         </div>
 
@@ -278,19 +290,19 @@
           <span>VERIFY PAYMENT</span>
         </button>
 
-        <!-- Invalid Code Error Box + WhatsApp Support Link -->
+        <!-- Invalid Transaction ID Error Container with WhatsApp Direct Button -->
         <div id="errorContainer" class="hidden p-4 rounded-xl bg-red-950/90 border border-red-500/60 space-y-3">
           <div class="flex items-start space-x-2.5 text-red-200">
             <i class="fa-solid fa-circle-exclamation text-red-400 text-base mt-0.5"></i>
             <div>
               <p class="text-xs font-bold text-red-400">Verification Error</p>
               <p class="text-xs text-red-200/80 mt-0.5 leading-relaxed">
-                The Transaction ID entered is invalid or pending manual verification. Please contact support below.
+                The Transaction ID entered is invalid or pending manual approval. Please contact support.
               </p>
             </div>
           </div>
           
-          <!-- STRICTLY "Contact WhatsApp Support" (NO PHONE NUMBER IN TEXT) -->
+          <!-- STRICTLY "Contact WhatsApp Support" (NO raw phone number visible in text) -->
           <a 
             id="whatsappBtn"
             href="#" 
@@ -325,7 +337,7 @@
         <!-- Hidden File Input -->
         <input type="file" id="screenshotInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)" />
 
-        <!-- Interactive Dropzone -->
+        <!-- Dropzone Box -->
         <div 
           id="dropzone" 
           onclick="triggerFileInput()"
@@ -337,15 +349,15 @@
               <i class="fa-solid fa-cloud-arrow-up text-xl text-fuchsia-400"></i>
             </div>
             <div>
-              <p class="text-xs font-bold text-purple-100">Tap to Upload Screenshot Image</p>
+              <p class="text-xs font-bold text-purple-100">Tap to Select Screenshot Image</p>
               <p class="text-[10px] text-purple-400 mt-0.5">PNG, JPG, WEBP from SportyBet Instant Football</p>
             </div>
           </div>
 
-          <!-- Uploaded Screenshot Preview -->
+          <!-- Uploaded Screenshot Image Preview -->
           <img id="imagePreview" class="hidden max-h-48 w-full object-contain rounded-lg shadow-lg z-10" alt="Screenshot Preview" />
           
-          <!-- Scanning Laser Effect Bar -->
+          <!-- Laser Scanner Effect Bar -->
           <div id="scannerLaser" class="hidden absolute left-0 w-full h-1 bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent shadow-[0_0_15px_#e879f9] animate-laser-scan z-20"></div>
         </div>
 
@@ -358,7 +370,7 @@
           <span>GENERATE PREDICTION</span>
         </button>
 
-        <!-- Exhausted Limit Notice Banner (0/3 Uploads - NO AUTO REDIRECT) -->
+        <!-- Exhausted Limit Banner (0/3 Uploads - DOES NOT REDIRECT AWAY) -->
         <div id="limitReachedNotice" class="hidden p-3.5 rounded-xl bg-purple-950/90 border border-purple-500/40 text-center space-y-2.5">
           <p class="text-xs text-purple-200 font-medium leading-relaxed">
             <i class="fa-solid fa-lock text-fuchsia-400 mr-1"></i> You have used all 3 prediction scans for this key.
@@ -372,7 +384,7 @@
 
       </div>
 
-      <!-- Prediction Results Container -->
+      <!-- Prediction Results Cards Container -->
       <div id="resultsSection" class="hidden space-y-3">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-xs font-black uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
@@ -381,9 +393,9 @@
           <span class="text-[10px] text-purple-400 font-mono" id="timestampText">Just Now</span>
         </div>
 
-        <!-- Dynamic Match Cards -->
+        <!-- Dynamic 1X2 Match Cards (Match 1, Match 2, Match 3 with NO team names) -->
         <div class="space-y-2.5" id="matchCardsContainer">
-          <!-- Rendered via JS (Strict Match 1, Match 2, Match 3 with 1X2 outcomes) -->
+          <!-- Populated by JavaScript -->
         </div>
       </div>
 
@@ -419,7 +431,7 @@
         </div>
       </div>
 
-      <!-- Ticker Items Loop 2 (Duplicate for smooth wrap) -->
+      <!-- Ticker Items Loop 2 (Duplicate for continuous wrapping) -->
       <div class="flex space-x-6 items-center px-3">
         <div class="flex items-center space-x-2 text-xs">
           <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -446,7 +458,7 @@
     </div>
   </footer>
 
-  <!-- Notification Toast Message -->
+  <!-- Notification Toast Box -->
   <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 opacity-0 pointer-events-none transform -translate-y-4">
     <div class="glass-panel border border-purple-500/50 px-4 py-2.5 rounded-xl shadow-2xl text-xs font-semibold text-white flex items-center space-x-2">
       <i id="toastIcon" class="fa-solid fa-circle-info text-fuchsia-400"></i>
@@ -455,14 +467,14 @@
   </div>
 
   <script>
-    // Global State management
+    // Global App State Variables
     let uploadsLeft = 3;
     let imageUploaded = false;
     let isProcessing = false;
     const VALID_TRX_ID = "89984887780";
     const STRICT_OUTCOMES = ["Home Win", "Draw", "Away Win"];
 
-    // Web Audio API Synthesizer setup
+    // Web Audio API Synthesizer Context
     let audioCtx = null;
 
     function getAudioContext() {
@@ -478,7 +490,7 @@
       return audioCtx;
     }
 
-    // Crisp futuristic click on button presses
+    // Sound Synthesizer 1: Futuristic Button Click
     function playClickSound() {
       try {
         const ctx = getAudioContext();
@@ -499,11 +511,11 @@
         osc.start(ctx.currentTime);
         osc.stop(ctx.currentTime + 0.07);
       } catch (e) {
-        console.log("Audio play exception:", e);
+        console.log("Audio play error:", e);
       }
     }
 
-    // Upbeat 4-note chime on successful verification
+    // Sound Synthesizer 2: Upbeat 4-Note Success Chime
     function playSuccessChime() {
       try {
         const ctx = getAudioContext();
@@ -528,11 +540,11 @@
           osc.stop(ctx.currentTime + i * 0.08 + 0.25);
         });
       } catch (e) {
-        console.log("Audio play exception:", e);
+        console.log("Audio play error:", e);
       }
     }
 
-    // Low warning tone on payment error
+    // Sound Synthesizer 3: Warning Error Tone
     function playErrorBeep() {
       try {
         const ctx = getAudioContext();
@@ -554,7 +566,7 @@
         osc.start(ctx.currentTime);
         osc.stop(ctx.currentTime + 0.28);
       } catch (e) {
-        console.log("Audio play exception:", e);
+        console.log("Audio play error:", e);
       }
     }
 
@@ -622,7 +634,7 @@
         errorBox.classList.add('hidden');
         showToast("Payment Verified Successfully!", "success");
 
-        // Unlock Screen 3 and reset upload session
+        // Reset uploads session counter upon successful key activation
         uploadsLeft = 3;
         updateUploadCounterUI();
         resetUploadZone();
@@ -633,7 +645,7 @@
       } else {
         playErrorBeep();
 
-        // Build dynamic wa.me link with pre-filled message (hides 0593119939 in visible text)
+        // Build dynamic wa.me URL with pre-filled message including user input (phone number hidden from button label)
         const messageText = `Hello Virtual Predict Support, I need help verifying my payment. Transaction ID entered: ${inputVal}`;
         whatsappBtn.href = `https://wa.me/233593119939?text=${encodeURIComponent(messageText)}`;
 
@@ -717,10 +729,10 @@
         uploadsLeft--;
         updateUploadCounterUI();
 
-        // Generate dynamic 1X2 outcomes & confidence scores (>85%)
+        // Render predictions with 1X2 outcomes & randomized confidence scores strictly > 85%
         renderPredictionCards();
 
-        // Handle Exhausted Limit (0/3): DO NOT REDIRECT AUTOMATICALLY
+        // Exhausted upload state: DO NOT REDIRECT AWAY
         if (uploadsLeft === 0) {
           generateBtn.disabled = true;
           generateBtn.className = "w-full py-3.5 bg-gray-900 text-gray-500 font-bold rounded-xl border border-gray-800 cursor-not-allowed flex items-center justify-center space-x-2 text-xs tracking-wider uppercase";
@@ -762,7 +774,7 @@
         // Outcome strictly 1X2 format
         const outcome = STRICT_OUTCOMES[Math.floor(Math.random() * STRICT_OUTCOMES.length)];
 
-        // Dynamic confidence score randomly generated between 86% and 98% (>85%)
+        // Dynamic confidence score randomly generated strictly between 86% and 98% (>85%)
         const confidence = Math.floor(Math.random() * (98 - 86 + 1)) + 86;
 
         let badgeStyle = "bg-purple-900/50 text-purple-200 border-purple-500/40";
